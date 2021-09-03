@@ -187,9 +187,9 @@ if __name__=="__main__":
     classifiers = [
         KNeighborsClassifier(),
         SVC(),
-        GaussianProcessClassifier(1.0 * RBF(1)),
-        DecisionTreeClassifier(max_depth=5),
-        RandomForestClassifier(max_depth=5, n_estimators=10, max_features=1),
+        GaussianProcessClassifier(),
+        DecisionTreeClassifier(),
+        RandomForestClassifier(),
         AdaBoostClassifier()
     ]
 
@@ -209,4 +209,19 @@ if __name__=="__main__":
         'kernel': ['linear', 'rbf'],
         'C': [0.05, 0.1, 0.5, 1]
     }
+    model_dict['Gaussian Process']['params'] = {
+        'kernel': [1.0 * RBF(1), 2.0 * RBF(2), 5.0 * RBF(5)],
+    }
+    model_dict['Decision Tree']['params'] = {
+        'criterion': ['gini', 'entropy'],
+        'max_depth': [5, 7, 10]
+    }
+    model_dict['Random Forest']['params'] = {
+        'max_depth': [5, 7, 10], 
+        'n_estimators': [5, 10, 15], 
+        'max_features': [1, 2, 3]    
+        }
+    model_dict['AdaBoost']['params'] = {
+        'n_estimators': [20, 35, 50], 
+        }
 # %%
