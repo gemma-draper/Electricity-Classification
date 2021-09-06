@@ -2,6 +2,7 @@
 import numpy as np
 import pandas as pd
 # import models
+from sklearn.linear_model import LogisticRegression
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.svm import SVC
 from sklearn.gaussian_process import GaussianProcessClassifier
@@ -12,15 +13,40 @@ from sklearn.ensemble import AdaBoostClassifier
 
 from sklearn.model_selection import GridSearchCV
 
-class KNN:
-    def __init__(self, params, X_train, X_val, y_train, y_val):
 
-        self.params = params
+class LogisticRegressionModel:
+    def __init__(self, X_train, X_val, y_train, y_val, penalty='none'):
+
         self.X_train, self.X_val = X_train, X_val
         self.y_train, self.y_val = y_train, y_val
         self.results = []
 
-        for param in self.params:
+        self.model = LogisticRegression(penalty=penalty)
+        train_score, val_score = self.fit_model()
+        result = {
+            'name': 'Logistic Regression',
+            'penalty': penalty,
+            'training score': train_score,
+            'validation score': val_score,
+            }
+        self.results.append(result)
+    
+    def fit_model(self):
+        self.model.fit(self.X_train, self.y_train)
+        train_score = self.model.score(self.X_train, self.y_train)
+        val_score = self.model.score(self.X_val, self.y_val)
+        return train_score, val_score
+
+
+class KNN:
+    def __init__(self, hyperparams, X_train, X_val, y_train, y_val):
+
+        self.hyperparams = hyperparams
+        self.X_train, self.X_val = X_train, X_val
+        self.y_train, self.y_val = y_train, y_val
+        self.results = []
+
+        for param in self.hyperparams['n_neighbors']:
             self.model = KNeighborsClassifier(n_neighbors=param)
             train_score, val_score = self.fit_model()
             result = {
@@ -66,14 +92,14 @@ class SVM:
         
 
 class GaussianProcess:
-    def __init__(self, params, X_train, X_val, y_train, y_val):
+    def __init__(self, hyperparams, X_train, X_val, y_train, y_val):
 
-        self.params = params
+        self.hyperparams = hyperparams
         self.X_train, self.X_val = X_train, X_val
         self.y_train, self.y_val = y_train, y_val
         self.results = []
 
-        for kernel in self.params:
+        for kernel in self.hyperparams['kernel']:
             self.model = GaussianProcessClassifier(1.0 * kernel(1.0))
             train_score, val_score = self.fit_model()
             result = {
@@ -97,16 +123,16 @@ class DecisionTree:
         DecisionTreeClassifier(max_depth=5)
 
 class RandomForest:
-    def __init__(self, params, X_train, X_val, y_train, y_val):
+    def __init__(self, hyperparams, X_train, X_val, y_train, y_val):
 
-        self.params = params
+        self.hyperparams = hyperparams
         self.X_train, self.X_val = X_train, X_val
         self.y_train, self.y_val = y_train, y_val
         self.results = []
 
-        for max_depth in self.params['max_depth']:
-            for n_estimators in self.params['n_estimators']:
-                for max_features in self.params['max_features']:
+        for max_depth in self.hyperparams['max_depth']:
+            for n_estimators in self.hyperparams['n_estimators']:
+                for max_features in self.hyperparams['max_features']:
                     self.model = RandomForestClassifier(
                         max_depth=max_depth, 
                         n_estimators=n_estimators, 
@@ -130,15 +156,15 @@ class RandomForest:
         return train_score, val_score
 
 class AdaBoost:
-    def __init__(self, params, X_train, X_val, y_train, y_val):
+    def __init__(self, hyperparams, X_train, X_val, y_train, y_val):
 
-        self.params = params
+        self.hyperparams = hyperparams
         self.X_train, self.X_val = X_train, X_val
         self.y_train, self.y_val = y_train, y_val
         self.results = []
 
     
-        for n_estimators in self.params['n_estimators']:
+        for n_estimators in self.hyperparams['n_estimators']:
             self.model = AdaBoostClassifier(n_estimators=n_estimators)
             train_score, val_score = self.fit_model()
             result = {
@@ -156,24 +182,34 @@ class AdaBoost:
         return train_score, val_score
         
 
-def grid_search(model_dict, X_train, X_val, y_train, y_val):
+def cv_grid_search(model_dict, X_train, X_val, y_train, y_val):
+    """
+    Grid search using the sklearn GridSearchCV.
+    """
     X = np.append(X_train, X_val, axis=0)
     y = np.append(y_train, y_val)
 
     results = []
+
     for name in model_dict:
         param_dict = model_dict[name]['params']
         model = model_dict[name]['model']
         classifier = GridSearchCV(
             model, 
-            param_dict, 
-            scoring=['accuracy', 'precision', 'recall'],
+            param_dict,
             verbose=2,
             return_train_score=True
             )
         classifier.fit(X, y)   
         results.append(classifier.cv_results_) 
     return pd.DataFrame(results)
+
+
+
+
+
+
+
 
 if __name__=="__main__":
     names = [
@@ -224,4 +260,6 @@ if __name__=="__main__":
     model_dict['AdaBoost']['params'] = {
         'n_estimators': [20, 35, 50], 
         }
+
+    grid_search(model_dict, X_train, X_val, y_train, y_val)
 # %%
