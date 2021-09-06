@@ -26,3 +26,8 @@ This is a multiclass classification problem. Each target is one of 5 classes:
 |  2   |  other |
 |  3   |  solar |
 |  4   |  wind |
+
+## Results
+Models evaluated thus far including the score achieved on the validation and training sets are displayed in the table below.
+
+![data](/presentation/images/results.png)
