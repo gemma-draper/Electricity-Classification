@@ -30,4 +30,10 @@ This is a multiclass classification problem. Each target is one of 5 classes:
 ## Results
 Models evaluated thus far including the score achieved on the validation and training sets are displayed in the table below.
 
-![data](/presentation/images/results.png)
+![data](./presentation/images/results.png)
+
+## Future work
+The data available from the UN Stats database is extensive, and there is potential to extract greater meaning from the data. Possible future work for this project includes:
+
+ - Including more features. The UN tracks over 200 indicators, which could be used as features for this analysis.
+ - Time series analysis. Data is submitted by countries each year. Although there are gaps in the data, the completeness of the data is improving each year.
