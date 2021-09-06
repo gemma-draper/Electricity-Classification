@@ -34,6 +34,8 @@ Models evaluated thus far including the score achieved on the validation and tra
 
 ## Future work
 The data available from the UN Stats database is extensive, and there is potential to extract greater meaning from the data. Possible future work for this project includes:
-
+ - Improving the model scoring metrics. For this analysis, sklearn's builtin model scorer has been used. Model perfomance would be better assessed using precision, recall and accuracy.
+ - Wider grid search. Some chosen hyperparameters are at the upper or lower bounds of the options provided for the search. Further research and iteration may yield better hyperparameters.
  - Including more features. The UN tracks over 200 indicators, which could be used as features for this analysis.
+ - Train a deep learning classifier. With more features comes greater complexity. Deep models may prove useful in this domain.
  - Time series analysis. Data is submitted by countries each year. Although there are gaps in the data, the completeness of the data is improving each year.
