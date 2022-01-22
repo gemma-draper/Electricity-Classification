@@ -12,7 +12,7 @@ Data for each of these goas is available from the UN Statistics database. The ai
 The data used in this is from the United Nations' database. 
 - Features consist of indicators for the UN's Sustainable Development Goals initiative by geographical in the year 2019. 
 - Targets are the dominant energy source per geographical area.
-- The data for the start of this project consists of 85 geographical areas for which target data was available, and 3 indicators per area. Indcators are the percentage population with access to electricity in:
+- The data for the start of this project consists of 85 geographical areas for which target data was available, and 3 indicators per area. Indicators are the percentage population with access to electricity in:
    - rural areas.
    - urban areas.
    - all areas.
