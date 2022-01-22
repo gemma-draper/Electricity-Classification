@@ -5,7 +5,7 @@ The Sustainable Development Goals (SDGs), also known as the Global Goals, were a
 
 ![Sustainable Development Goals](https://i1.wp.com/www.un.org/sustainabledevelopment/wp-content/uploads/2015/12/english_SDG_17goals_poster_all_languages_with_UN_emblem_1.png?fit=728%2C451&ssl=1)
 
-Data for each of these goas is available from teh UN Statistics database. The aim on this project is to predicting dominant energy source by country using the SDG indicator dat.
+Data for each of these goas is available from the UN Statistics database. The aim on this project is to predicting dominant energy source by country using the SDG indicator dat.
 
 ## About the data
 
